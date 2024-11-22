@@ -19,6 +19,7 @@ class Talk extends Model
     protected $fillable = [
         'title',
         'description',
+        'duration',
         'speaker_id',
     ];
 

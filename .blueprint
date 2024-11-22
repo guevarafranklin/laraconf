@@ -3,12 +3,12 @@ created:
     - database/factories/VenueFactory.php
     - database/factories/SpeakerFactory.php
     - database/factories/TalkFactory.php
-    - database/migrations/2024_11_22_040431_create_conferences_table.php
-    - database/migrations/2024_11_22_040432_create_venues_table.php
-    - database/migrations/2024_11_22_040433_create_speakers_table.php
-    - database/migrations/2024_11_22_040434_create_talks_table.php
-    - database/migrations/2024_11_22_040435_create_conference_speaker_table.php
-    - database/migrations/2024_11_22_040436_create_conference_talk_table.php
+    - database/migrations/2024_11_22_041410_create_conferences_table.php
+    - database/migrations/2024_11_22_041411_create_venues_table.php
+    - database/migrations/2024_11_22_041412_create_speakers_table.php
+    - database/migrations/2024_11_22_041413_create_talks_table.php
+    - database/migrations/2024_11_22_041414_create_conference_speaker_table.php
+    - database/migrations/2024_11_22_041415_create_conference_talk_table.php
     - app/Models/Conference.php
     - app/Models/Venue.php
     - app/Models/Speaker.php
@@ -18,4 +18,4 @@ models:
     Conference: { name: string, description: string, start_date: datetime, end_date: datetime, status: string, region: string, venue_id: 'unsignedInteger nullable', relationships: { belongsTo: Venue, belongsToMany: 'Speaker, Talk' } }
     Venue: { name: string, city: string, country: string, address: string, postal_code: string, relationships: { hasMany: Conference } }
     Speaker: { name: string, email: string, phone: string, bio: text, twitter: string, linkedin: string, relationships: { belongsToMany: Conference } }
-    Talk: { title: string, description: text, relationships: { belongsTo: Speaker, belongsToMany: Conference } }
+    Talk: { title: string, description: text, duration: integer, speaker_id: 'unsignedInteger nullable', relationships: { belongsTo: Speaker, belongsToMany: Conference } }

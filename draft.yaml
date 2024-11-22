@@ -33,6 +33,8 @@ models:
   Talk:
     title: string
     description: text
+    duration: integer
+    speaker_id: unsignedInteger nullable
     relationships:
       belongsTo: Speaker
       belongsToMany: Conference

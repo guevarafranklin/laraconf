@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignId('speaker_id');
+            $table->integer('duration');
+            $table->foreignId('speaker_id')->nullable();
             $table->timestamps();
         });
     }

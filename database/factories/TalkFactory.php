@@ -24,6 +24,7 @@ class TalkFactory extends Factory
         return [
             'title' => $this->faker->sentence(4),
             'description' => $this->faker->text(),
+            'duration' => $this->faker->numberBetween(-10000, 10000),
             'speaker_id' => Speaker::factory(),
         ];
     }
