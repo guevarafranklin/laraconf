@@ -6,11 +6,11 @@ models:
     end_date: datetime
     status: string
     region: string
-    venue_id: unsignedInteger
+    venue_id: unsignedInteger nullable
     relationships:
       belongsTo: Venue
       belongsToMany: Speaker, Talk
-      
+
   Venue:
     name: string
     city: string
