@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Enums\Region;
 
 class ConferenceResource extends Resource
 {
@@ -43,8 +44,9 @@ class ConferenceResource extends Resource
                         'archived' => 'Archived',
                     ])
                     ->required(),
-                Forms\Components\TextInput::make('region')
-                    ->default('San Antonio, Tx')
+                Forms\Components\Select::make('region')
+                    ->enum(Region::class)
+                    ->options(Region::class)
                     ->required(),
                 Forms\Components\Select::make('venue_id')
                     ->relationship('venue', titleAttribute: 'name'),
