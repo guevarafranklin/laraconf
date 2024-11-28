@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ConferenceResource\Pages;
 use App\Filament\Resources\ConferenceResource\RelationManagers;
 use App\Models\Conference;
+use App\Models\Venue;
 use Filament\Forms;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Toggle;
@@ -22,7 +23,7 @@ class ConferenceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    
+
 
     public static function form(Form $form): Form
     {
@@ -45,12 +46,18 @@ class ConferenceResource extends Resource
                     ])
                     ->required(),
                 Forms\Components\Select::make('region')
+                    ->live()
                     ->enum(Region::class)
-                    ->options(Region::class)
-                    ->required(),
+                    ->options(Region::class),
                 Forms\Components\Select::make('venue_id')
-                    ->relationship('venue', titleAttribute: 'name'),
-                
+                    ->searchable()
+                    ->preload()
+                    ->editOptionForm(schema: Venue::getForm())
+                    ->createOptionForm(schema: Venue::getForm())
+                    ->relationship('venue', titleAttribute: 'name', modifyQueryUsing: function (Builder $query, Forms\Get $get) {
+                        return $query->where('region', $get('region'));
+                    }),
+
             ]);
     }
 

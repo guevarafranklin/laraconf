@@ -23,22 +23,7 @@ class VenueResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('city')
-                    ->required(),
-                Forms\Components\TextInput::make('country')
-                    ->required(),
-                Forms\Components\TextInput::make('address')
-                    ->required(),
-                Forms\Components\TextInput::make('postal_code')
-                    ->required(),
-                Forms\Components\Select::make('region')
-                    ->enum(Region::class)
-                    ->options(Region::class)
-                    ->required(),
-            ]);
+            ->schema(components: Venue::getForm());
     }
 
     public static function table(Table $table): Table
