@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\TalkLength;
+use App\Enums\TalkStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +21,8 @@ class Talk extends Model
     protected $fillable = [
         'title',
         'description',
-        'duration',
+        'length',
+        'status',
         'speaker_id',
     ];
 
@@ -31,6 +34,8 @@ class Talk extends Model
     protected $casts = [
         'id' => 'integer',
         'speaker_id' => 'integer',
+        'status' => TalkStatus::class,
+        'length' => TalkLength::class,
     ];
 
     public function speaker(): BelongsTo

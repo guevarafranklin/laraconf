@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->integer('duration');
+            $table->string('length')->default(\App\Enums\TalkLength::NORMAL);
+            $table->string('status')->default(\App\Enums\TalkStatus::SUBMITTED);
+            $table->boolean('new_talk')->default(true);
             $table->foreignId('speaker_id')->nullable();
             $table->timestamps();
         });

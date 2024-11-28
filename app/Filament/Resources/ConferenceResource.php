@@ -27,37 +27,7 @@ class ConferenceResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Conference Name')
-                    ->required(),
-                Forms\Components\TextInput::make('description')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('start_date')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('end_date')
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'published' => 'Published',
-                        'archived' => 'Archived',
-                    ])
-                    ->required(),
-                Forms\Components\Select::make('region')
-                    ->live()
-                    ->enum(Region::class)
-                    ->options(Region::class),
-                Forms\Components\Select::make('venue_id')
-                    ->searchable()
-                    ->preload()
-                    ->editOptionForm(schema: Venue::getForm())
-                    ->createOptionForm(schema: Venue::getForm())
-                    ->relationship('venue', titleAttribute: 'name', modifyQueryUsing: function (Builder $query, Forms\Get $get) {
-                        return $query->where('region', $get('region'));
-                    }),
-
-            ]);
+            ->schema(components: Conference::getForm());
     }
 
     public static function table(Table $table): Table
