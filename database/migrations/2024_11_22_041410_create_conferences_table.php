@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->boolean('is_published')->default(false);
             $table->string('status');
             $table->string('region');
             $table->foreignId('venue_id')->nullable();

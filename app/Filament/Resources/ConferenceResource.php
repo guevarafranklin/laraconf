@@ -6,6 +6,8 @@ use App\Filament\Resources\ConferenceResource\Pages;
 use App\Filament\Resources\ConferenceResource\RelationManagers;
 use App\Models\Conference;
 use Filament\Forms;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -18,6 +20,8 @@ class ConferenceResource extends Resource
     protected static ?string $model = Conference::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    
 
     public static function form(Form $form): Form
     {
@@ -32,12 +36,19 @@ class ConferenceResource extends Resource
                     ->required(),
                 Forms\Components\DateTimePicker::make('end_date')
                     ->required(),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                        'archived' => 'Archived',
+                    ])
                     ->required(),
                 Forms\Components\TextInput::make('region')
+                    ->default('San Antonio, Tx')
                     ->required(),
                 Forms\Components\Select::make('venue_id')
-                    ->relationship('venue', 'name'),
+                    ->relationship('venue', titleAttribute: 'name'),
+                
             ]);
     }
 
