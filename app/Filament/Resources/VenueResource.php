@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Enums\Region;
 
 class VenueResource extends Resource
 {
@@ -33,6 +34,10 @@ class VenueResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('postal_code')
                     ->required(),
+                Forms\Components\Select::make('region')
+                    ->enum(Region::class)
+                    ->options(Region::class)
+                    ->required(),
             ]);
     }
 
@@ -49,6 +54,8 @@ class VenueResource extends Resource
                 Tables\Columns\TextColumn::make('address')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('postal_code')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('region')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
