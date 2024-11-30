@@ -8,4 +8,5 @@ enum TalkLength: string
     case NORMAL= 'Normal - 30 minutes';
     case KEYNOTE = 'Keynote';
 
+
 }

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TalkLength;
+use App\Enums\TalkStatus;
 use App\Filament\Resources\TalkResource\Pages;
 use App\Filament\Resources\TalkResource\RelationManagers;
 use App\Models\Talk;
@@ -12,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Str;
 
 class TalkResource extends Resource
 {
@@ -28,9 +31,14 @@ class TalkResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('duration')
+                Forms\Components\Select::make('length')
                     ->required()
-                    ->numeric(),
+                    ->enum(TalkLength::class)
+                    ->options(TalkLength::class),
+                Forms\Components\Select::make('status')
+                    ->required()
+                    ->enum(TalkStatus::class)
+                    ->options(TalkStatus::class),
                 Forms\Components\Select::make('speaker_id')
                     ->relationship('speaker', 'name'),
             ]);
@@ -41,12 +49,15 @@ class TalkResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('duration')
-                    ->numeric()
+                    ->sortable()
+                    ->searchable()
+                    ->description(function (Talk $record) {
+                        return Str::of($record->description)->limit(50);
+                    }),
+                Tables\Columns\TextColumn::make('length')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('speaker.name')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

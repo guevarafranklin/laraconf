@@ -13,16 +13,13 @@ class Talk extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         'title',
         'description',
         'length',
         'status',
+        'new_talk',
         'speaker_id',
     ];
 
@@ -47,4 +44,6 @@ class Talk extends Model
     {
         return $this->belongsToMany(Conference::class);
     }
+
+
 }
