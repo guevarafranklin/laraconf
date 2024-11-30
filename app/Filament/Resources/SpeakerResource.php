@@ -7,11 +7,17 @@ use App\Filament\Resources\SpeakerResource\RelationManagers;
 use App\Models\Speaker;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Nette\Utils\Image;
 
 class SpeakerResource extends Resource
 {
@@ -30,6 +36,7 @@ class SpeakerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
@@ -55,6 +62,7 @@ class SpeakerResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -63,6 +71,37 @@ class SpeakerResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Personal Information')
+                    ->columns(3)
+                    ->schema([
+                        ImageEntry::make('avatar')
+                        ->defaultImageUrl(function ($record) {
+                            return 'https://ui-avatars.com/api/?background=00008B&color=fff&name=' . urlencode($record->name);
+                        })
+                        ->circular(),
+                        Group::make()
+                            ->columnSpan(2)
+                            ->columns(2)
+                            ->schema([
+                        TextEntry::make('name'),
+                        TextEntry::make('email'),
+                        TextEntry::make('qualifications'),
+                        TextEntry::make('phone'),
+                        TextEntry::make('twitter')
+                                ->label('Twitter')
+                                ->url(function ($record) {
+                                    return 'https://x.com/' . $record->twitter;
+                                }),
+                        TextEntry::make('linkedin'),
+                        TextEntry::make('bio'),
+                                    ])
+            ])
+            ]);
+    }
     public static function getRelations(): array
     {
         return [
@@ -76,6 +115,7 @@ class SpeakerResource extends Resource
             'index' => Pages\ListSpeakers::route('/'),
             'create' => Pages\CreateSpeaker::route('/create'),
             'edit' => Pages\EditSpeaker::route('/{record}/edit'),
+            'view' => Pages\ViewSpeaker::route('/{record}'),
         ];
     }
 }
